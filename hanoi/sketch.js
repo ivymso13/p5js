@@ -29,7 +29,7 @@ class Disk {
       if(this.y>50) this.ySpeed = -5;
       else {
         this.ySpeed = 0;
-        this.xSpeed = (this.to - this.from)>0 ? 5:-5;
+        this.xSpeed = (this.to - this.from)>0 ? 10:-10;
       }
     }
     
@@ -77,7 +77,7 @@ function setup() {
   inp = select('#inp');
   btn = select('#btn');
 
-  let canvas = createCanvas(750, 400);
+  let canvas = createCanvas(1200, 400);
   canvas.parent("canvasp");
 
   fin = 1;
