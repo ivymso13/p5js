@@ -106,7 +106,7 @@ function draw() {
         p.parent("route");
 
 
-        cur = moves[idx][0];
+        cur = movses[idx][0];
         disks[cur].from = moves[idx][1];
         disks[cur].to = moves[idx][2];
         disks[cur].mv = 1;
