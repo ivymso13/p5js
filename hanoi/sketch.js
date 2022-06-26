@@ -18,6 +18,10 @@ class Disk {
     fill(this.c[0], this.c[1], this.c[2]);
     rect(this.x, this.y, this.sz, 20);
 
+    fill(255-this.c[0], 255-this.c[1], 255-this.c[2]);
+    textAlign(CENTER, CENTER);
+    text((this.sz/40).toString(), this.x, this.y);
+
     this.x += this.xSpeed;
     this.y += this.ySpeed;
 
@@ -66,24 +70,23 @@ let pillars = [];
 let disks = [];
 let moves = [];
 
+let fin;
 let idx, cur;
 
 function setup() {
-  inp = createInput();
-  btn = createButton("submit");
-
-  inp.parent("inp");
-  btn.parent("inp");
+  inp = select('#inp');
+  btn = select('#btn');
 
   let canvas = createCanvas(750, 400);
   canvas.parent("canvasp");
 
+  fin = 1;
   for(let _x=width/2-width/3;_x<width;_x+=width/3) {
     let t = new Pillar(_x, height/2);
     pillars.push(t);
   }
 
-  btn.mousePressed(getValue);
+  btn.mousePressed(init);
   
 }
 
@@ -91,35 +94,39 @@ function draw() {
   background(220);
 
   for(let i=0;i<3;i++) pillars[i].show();
-
   if(disks.length > 0) {
+    for(let i=0;i<N;i++) disks[i].show();
+  }
+
+  if(fin == 0) {
     if(idx<0 || disks[cur].mv == 0) {
       idx++;
-
+      
+      // Finish
       if(idx == moves.length) {
         let p = createP("Finishi!!!");
-        noLoop();
+        fin = 1;
       }
 
+      // Move
       else {
         let p = createElement("li", "Move " + (moves[idx][0]+1).toString() + "st disk to " + (moves[idx][2]+1).toString() + "st pillar")
         p.parent("route");
 
-
-        cur = movses[idx][0];
+        cur = moves[idx][0];
         disks[cur].from = moves[idx][1];
         disks[cur].to = moves[idx][2];
         disks[cur].mv = 1;
       }
     }
-
-    for(let i=0;i<N;i++) disks[i].show();
   }
 }
 
-function getValue() {
+function init() {
   N = parseInt(inp.value());
+  removeElements();
 
+  fin = 0;
   for(let i=0;i<3;i++) pillars[i].level = 280;
 
   disks = [];
@@ -134,6 +141,7 @@ function getValue() {
 
   moves = [];
   getHanoi(N, 0, 2, 1);
+
   idx = -1;
 }
 
@@ -142,7 +150,7 @@ function getHanoi(n, from, to, temp) {
     getHanoi(n-1, from, temp, to);
     
     moves.push([n-1, from, to]);
-
+    
     getHanoi(n-1, temp, to, from);
   }
 }
