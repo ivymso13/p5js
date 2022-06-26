@@ -1,2 +1,2 @@
 # p5js
-p5js project
+p5js를 활용한 프로젝트 모음
